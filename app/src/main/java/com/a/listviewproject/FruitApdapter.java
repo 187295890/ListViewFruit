@@ -18,16 +18,30 @@ public class FruitApdapter extends ArrayAdapter<Fruit> {
         super(context, resource, objects);
 
     }
-
+//现在该方法基本能实现功能，但是效率较低，因为每次都要通过方法来获取控件实例。我们添加一个新类ViewHolder
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Fruit fruit=getItem( position);
-        View view= LayoutInflater.from(getContext()).inflate(R.layout.fiuit_item,parent,false);
-        ImageView imageView= (ImageView) view.findViewById(R.id.fruit_item_image_name);
-        TextView textView= (TextView) view.findViewById(R.id.fruit_item_text_view);
-        imageView.setImageResource(fruit.getmImageId());
-        textView.setText(fruit.getmName());
+        Fruit fruit=getItem(position);
+        View view;
+        ViewHolder viewHolder;
+        if(convertView==null){
+
+            view= LayoutInflater.from(getContext()).inflate(R.layout.fiuit_item,parent,false);
+            viewHolder=new ViewHolder();
+            viewHolder.fruitImage= (ImageView) view.findViewById(R.id.fruit_item_image_name);
+            viewHolder.fruitName= (TextView) view.findViewById(R.id.fruit_item_text_view);
+            view.setTag(viewHolder);
+        }else{
+            view=convertView;
+            viewHolder= (ViewHolder) view.getTag();
+        }
+        viewHolder.fruitImage.setImageResource(fruit.getmImageId());
+        viewHolder.fruitName.setText(fruit.getmName());
         return view;
     }
 
 }
+     class ViewHolder{
+         ImageView fruitImage;
+         TextView fruitName;
+   }

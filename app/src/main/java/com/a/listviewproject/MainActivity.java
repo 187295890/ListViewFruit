@@ -3,8 +3,11 @@ package com.a.listviewproject;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.a.listviewproject.bean.Fruit;
 
@@ -18,10 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InitFruit();
         FruitApdapter apdapter=new FruitApdapter(this,R.layout.fiuit_item,fruitList);
         listView= (ListView) findViewById(R.id.activity_main_list_view);
         listView.setAdapter(apdapter);
-        InitFruit();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fruit fruit=fruitList.get(position);
+                Toast.makeText(MainActivity.this, fruit.getmName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void InitFruit(){
         String[] fruitName={"apple", "banana", "orange", "watermelon", "pear", "grape",
